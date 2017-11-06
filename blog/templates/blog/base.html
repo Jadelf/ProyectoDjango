@@ -1,0 +1,35 @@
+{%	load	staticfiles	%}
+<html>
+				<head>
+								<title>Reservas de Equipo Medico</title>
+								<link	rel="stylesheet"	href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+								<link	rel="stylesheet"	href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+								<link	href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext'	rel='stylesheet'	type='text/css'
+>
+								<link	rel="stylesheet"	href="{%	static	'css/blog.css'	%}">
+				</head>
+        <body>
+          <div	class="page-header">
+  				<h1><a	href="/">Administracion de Equipo Medico</a></h1>
+					{%	if	user.is_authenticated	%}
+  								<a	href="{%	url	'equipo_new'	%}"	class="botones"><span	class="glyphicon	glyphicon-plus"></span>Equipo</a>
+									<a	href="{%	url	'medic_new'	%}"	class="botones"><span	class="glyphicon	glyphicon-user"></span>Medico</a>
+  								<a	href="{%	url	'equipo_draft_list'	%}"	class="botones"><span	class="glyphicon	glyphicon-edit"></span>Aprobar Equipo</a>
+									<a	href="{%	url	'medic_list'	%}"	class="botones"><span	class="glyphicon	glyphicon-user"></span>Ver Medicos</a>
+									<a	href="{%	url	'equipo_list'	%}"	class="botones"><span	class="glyphicon	glyphicon-user"></span>Ver Equipo</a>
+  								<p	class="botones">Hello	{{	user.username	}}	<small>(<a class="botonlogout" href="{%	url	'logout'	%}">Log	out</a>)</small></p>
+  				{%	else	%}
+  								<a	href="{%	url	'login'	%}"	class="botones"><span	class="glyphicon	glyphicon-lock"></span></a>
+  				{%	endif	%}
+					</div>
+
+				<div	class="content	container">
+								<div	class="row">
+												<div	class="col-md-8">
+												{%	block	content	%}
+												{%	endblock	%}
+												</div>
+								</div>
+				</div>
+</body>
+</html>
