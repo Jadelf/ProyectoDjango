@@ -1,18 +1,19 @@
 {%	extends	'blog/base.html'	%}
 {%	block	content	%}
 				<div	class="post">
-
-  <div	class="date">
-          {{	post.register_date	}}
-  </div>
+  				<div	class="date">
+          	{{	post.register_date	}}
+  				</div>
         {%	if	user.is_authenticated	%}
-					<a	class="btn	btn-default"	href="{%	url	'medic_edit'	pk=post.pk	%}"><span	class="glyphicon	glyphicon-pencil"></sp
-an></a>
-<a	class="btn	btn-default"	href="{%	url	'medic_remove'	pk=post.pk	%}"><span	class="glyphicon	glyphicon-remove"></span>
-</a>
-{%	endif	%}
+					<a	class="btn	btn-default"	href="{%	url	'medic_edit'	pk=post.pk	%}"><span	class="glyphicon	glyphicon-pencil"></span></a>
+					<a	class="btn	btn-default"	href="{%	url	'medic_remove'	pk=post.pk	%}"><span	class="glyphicon	glyphicon-remove"></span></a>
+					{%	endif	%}
 								<h1>{{	post.nombre	}}</h1>
 								<h2>{{	post.especialidad	}}</h2>
-								<h3>{{	post.edad	}}</h3>
+								<h3>{{	post.edad	}} años</h3>
+								<hr>
+								{% for datos in datos %}
+								<h2>{{	datos.nombre	}}</h2><br>
+								{% endfor %}
 				</div>
 {%	endblock	%}

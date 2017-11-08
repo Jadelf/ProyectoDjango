@@ -15,4 +15,10 @@ urlpatterns	=	[
                 url(r'^medic/(?P<pk>\d+)/edit/$',views.medic_edit,name='medic_edit'),
                 url(r'^medic/(?P<pk>\d+)/remove/$',	views.medic_remove,	name='medic_remove'),
 				url(r'^drafts/$',	views.equipo_draft_list,	name='equipo_draft_list'),
+				url(r'^accounts/profile/$',	views.equipo_list, name='profile_list'),
+				#url(r'^reservacion/$',	views.reservacion_list, name='reservacion_list'),
+                #url(r'^reservacion/(?P<pk>\d+)/$',	views.reservacion_detail,	name='reservacion_detail'),
+                #url(r'^reservacion/new/$',	views.reservacion_new,	name='reservacion_new'),
+                #url(r'^reservacion/(?P<pk>\d+)/edit/$',views.reservacion_edit,name='reservacion_edit'),
+                #url(r'^reservacion/(?P<pk>\d+)/remove/$',	views.reservacion_remove,	name='reservacion_remove'),
 ]

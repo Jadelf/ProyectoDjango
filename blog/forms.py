@@ -6,7 +6,11 @@ class	EquipoForm(forms.ModelForm):
         model	=	Equipo
         fields	=	('nombre',	'descripcion',)
 
-class	MedicoForm(forms.ModelForm):
-    class	Meta:
-        model	=	Medico
-        fields	=	('nombre',	'edad', 'especialidad',)
+class MedicoForm(forms.ModelForm):
+    class Meta:
+        model = Medico
+        fields	=	('nombre',	'edad', 'especialidad', 'equipos',)
+        def __init__(self, *args, **kwargs):
+            super(MedicoForm,self).__init__(*args,**kwargs)
+            self.fields["equipos"].widget = forms.widgets.CheckboxSelectMultiple()
+            self.fields["equipos"].queryset = Equipo.objects.all()

@@ -1,9 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
-from .models import Equipo,Medico
+from .models import Equipo, Medico, Reservacion
 from .forms	import EquipoForm,MedicoForm
 from django.contrib.auth.decorators	import login_required
-
 #Views de equipo
 def equipo_list(request):
     posts = Equipo.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
@@ -67,9 +66,14 @@ def medic_list(request):
     posts = Medico.objects.filter(register_date__lte=timezone.now()).order_by('register_date')
     return render(request, 'blog/medic_list.html',{'posts':posts})
 
-def	medic_detail(request,pk):
-	post = get_object_or_404(Medico, pk=pk)
-	return	render(request, 'blog/medic_detail.html',{'post':post})
+def medic_detail(request,pk):
+    post = get_object_or_404(Medico,pk=pk)
+    datos=[]
+    eq=Reservacion.objects.filter(medico_id=pk)
+    for eq in eq:
+        nequipo = Equipo.objects.get(pk=eq.equipo_id)
+        datos.append(nequipo)
+    return render(request,'blog/medic_detail.html',{'post':post,'datos':datos})
 
 @login_required
 def	medic_new(request):
@@ -80,11 +84,14 @@ def	medic_new(request):
 def medic_new(request):
     if request.method =="POST":
         form = MedicoForm(request.POST)
+        e = request.POST.getlist('equipos')
+        p = Equipo.objects.all()
         if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.save()
-        return redirect('medic_detail', pk=post.pk)
+            medico = Medico.objects.create(nombre=form.cleaned_data['nombre'],edad=form.cleaned_data['edad'],especialidad=form.cleaned_data['especialidad'])
+            for equipo_id in request.POST.getlist('equipos'):
+                reservacion = Reservacion(equipo_id=equipo_id,medico_id = medico.id)
+                reservacion.save()
+        return redirect('medic_detail', pk=medico.pk)
     else:
         form = MedicoForm()
     return render(request,'blog/medic_edit.html',{'form':form})
@@ -93,6 +100,8 @@ def medic_new(request):
 def medic_edit(request,pk):
     post = get_object_or_404(Medico, pk=pk)
     if request.method == "POST":
+        e = request.POST.getlist('equipos')
+        p = Equipo.objects.all()
         form = MedicoForm(request.POST,instance=post)
         if form.is_valid():
             post = form.save(commit=False)
